@@ -1,11 +1,15 @@
 <template lang="pug">
-  .user-todo-page(v-if="user")
-    h1.title {{user.name}} ToDo's
-    button.button(@click="$router.go(-1)") <= Go Back
-    table.table.todos
-        tbody
-            tr(v-for="{id, completed, title} in toDos" :key="id" :class="{ 'is-selected': completed }")
-                td.todo {{title}}
+  .user-todo-page
+    template(v-if="user && toDos.length")
+        h1.title {{user.name}} ToDo's
+        button.button(@click="$router.go(-1)") <= Go Back
+        table.table.todos
+            tbody
+                tr(v-for="({id, completed, title}, idx) in toDos" :key="id")
+                    td.todo {{idx + 1}}. {{title}}
+                        span(v-if="completed") &nbsp;✅
+    template(v-else)
+        p.title Please, wait while loading
 </template>
 
 <script lang="ts">
@@ -47,5 +51,6 @@ export default class UserToDoPage extends Vue {
 <style lang="scss" scoped>
 .todos {
   margin: 0 auto;
+    text-align: left;
 }
 </style>
